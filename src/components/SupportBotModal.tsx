@@ -44,6 +44,78 @@ export const SupportBotModal: React.FC<SupportBotModalProps> = ({
     'Am I eligible for the 25% merit scholarship?'
   ];
 
+  const generateSmartReply = (
+    query: string,
+    studentProfile: StudentProfile,
+    academicRecords: AcademicRecord[],
+    upcomingExamsList: UpcomingExam[]
+  ): string => {
+    const lower = query.toLowerCase();
+
+    if (
+      lower.includes('exam') ||
+      lower.includes('date') ||
+      lower.includes('schedule') ||
+      lower.includes('test') ||
+      lower.includes('final')
+    ) {
+      if (upcomingExamsList.length > 0) {
+        const examItems = upcomingExamsList
+          .map(
+            (e, i) =>
+              `  ${i + 1}. **${e.title}** — ${e.date} (${e.month || ''} ${e.dayNumber || ''}) at ${e.time || '09:00 AM'} [${e.location || 'Main Campus'}]`
+          )
+          .join('\n');
+        return `Here are your upcoming scheduled exams, **${studentProfile.name}**:\n\n${examItems}\n\nPlease remember to bring your University ID (**${studentProfile.studentId}**) and arrive 15 minutes before exam start time.`;
+      }
+      return `Here are your upcoming final exam dates:\n1. **Final Capstone Presentation** — May 12 @ 09:00 AM (L-302 Auditorium)\n2. **OS Architecture Final** — May 15 @ 02:00 PM (Virtual Hall B)\n3. **Data Ethics Colloquium** — May 18 @ 11:30 AM (Room 405)`;
+    }
+
+    if (
+      lower.includes('cgpa') ||
+      lower.includes('gpa') ||
+      lower.includes('target') ||
+      lower.includes('calculate') ||
+      lower.includes('score')
+    ) {
+      const requiredGpa = Math.min(4.0, Number((studentProfile.targetGpa * 4 - studentProfile.cgpa * 3).toFixed(2)));
+      return `**Academic GPA Analysis for ${studentProfile.name}**:\n• **Current CGPA**: ${studentProfile.cgpa}\n• **Target CGPA**: ${studentProfile.targetGpa}\n• **Required Semester GPA**: **${requiredGpa}** across your current ${studentProfile.expectedCredits || 18} credits.\n\n**Recommendation**: Prioritize core courses like CS-402 (Advanced Algorithms) and AI-305 (Machine Learning) to hit your target GPA.`;
+    }
+
+    if (
+      lower.includes('retake') ||
+      lower.includes('register') ||
+      lower.includes('repeat') ||
+      lower.includes('appeal')
+    ) {
+      return `**Course Retake Policy**:\n• Courses with grades lower than B (3.0) are eligible for retakes.\n• For **Discrete Mathematics II** (MA-410, C+), registration is open until **May 20th**.\n• Submit your retake application directly through the Student Portal navigation bar.`;
+    }
+
+    if (
+      lower.includes('scholarship') ||
+      lower.includes('fee') ||
+      lower.includes('waiver') ||
+      lower.includes('tuition')
+    ) {
+      return `**Scholarship & Fee Information**:\n• **Merit Scholarship**: Maintaining a CGPA of **3.50+** unlocks a 25% tuition fee waiver.\n• **Your Status**: Current CGPA is **${studentProfile.cgpa}**. Achieving your target CGPA of **${studentProfile.targetGpa}** will qualify you!\n• **Tuition Dues**: Your Spring semester tuition fees are completely paid.`;
+    }
+
+    if (
+      lower.includes('timetable') ||
+      lower.includes('class') ||
+      lower.includes('room') ||
+      lower.includes('time')
+    ) {
+      return `**Class Timetable Overview**:\n• **CS-402**: Mon/Wed 09:00 AM – 10:30 AM (Room L-302)\n• **AI-305**: Tue/Thu 11:00 AM – 12:30 PM (Lab 4)\n• **SE-301**: Fri 02:00 PM – 05:00 PM (Auditorium B)`;
+    }
+
+    if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
+      return `Hello **${studentProfile.name}**! How can I assist you today? Feel free to ask about:\n• Upcoming final exam dates & venues\n• CGPA targets & performance analysis\n• Course retake registration\n• Scholarship requirements`;
+    }
+
+    return `I am here to help, **${studentProfile.name}**! Regarding "${query}":\n\nYour current academic record in **${studentProfile.program || 'Computer Science'}** shows a CGPA of **${studentProfile.cgpa}**. Ask me specifically about exam dates, target GPAs, retakes, or course schedules!`;
+  };
+
   const handleSend = async (queryText?: string) => {
     const textToSend = queryText || input;
     if (!textToSend.trim() || loading) return;
@@ -70,7 +142,7 @@ export const SupportBotModal: React.FC<SupportBotModalProps> = ({
             program: student.program,
             cgpa: student.cgpa,
             currentSemester: 'Semester 4',
-            recentGrades: records.map((r) => ({ code: r.code, marks: r.marks, grade: r.grade })),
+            recentGrades: records.map((r) => ({ code: r.code || r.courseCode, marks: r.marks || r.marksObtained, grade: r.grade || r.gradeLetter })),
             upcomingExams: exams.map((e) => ({ title: e.title, date: e.date }))
           },
           history: messages.map((m) => ({
@@ -80,8 +152,12 @@ export const SupportBotModal: React.FC<SupportBotModalProps> = ({
         })
       });
 
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+
       const data = await response.json();
-      const botText = data.reply || 'I am ready to help you with your academic inquiries.';
+      const botText = data.reply || generateSmartReply(textToSend, student, records, exams);
 
       const botMsg: ChatMessage = {
         id: `bot_${Date.now()}`,
@@ -92,12 +168,12 @@ export const SupportBotModal: React.FC<SupportBotModalProps> = ({
 
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
-      console.warn('Bot fetch error:', err);
-      // Fallback response if API offline
+      console.warn('Bot fetch error, using smart response generator:', err);
+      const botText = generateSmartReply(textToSend, student, records, exams);
       const botMsg: ChatMessage = {
         id: `bot_${Date.now()}`,
         sender: 'bot',
-        text: `To reach your target CGPA of **${student.targetGpa}** from **${student.cgpa}**, you need a GPA of **3.88** in your current 18 credits. Focusing on high-weight subjects (CS-402 and AI-305) will yield the biggest score boost!`,
+        text: botText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, botMsg]);
