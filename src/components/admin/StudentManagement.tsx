@@ -198,7 +198,7 @@ export function StudentManagement({
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Hassan Raza"
+                  placeholder="e.g. Amna Ahmed"
                   required
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
@@ -210,7 +210,7 @@ export function StudentManagement({
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="hassan.raza@nexus.edu"
+                  placeholder="amna.ahmed@nexus.edu"
                   required
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />

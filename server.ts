@@ -66,7 +66,7 @@ ${academicContext}`;
         });
 
         const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-2.0-flash",
           contents,
           config: {
             systemInstruction,
@@ -79,27 +79,34 @@ ${academicContext}`;
         return res.json({ reply: replyText });
       } catch (geminiError) {
         console.error("Gemini API Error:", geminiError);
-        // Fallback intelligently if API fails or key is quota limited
+        // Fallback intelligently if API fails or key is missing
       }
     }
 
-    // Intelligent Fallback AI Bot when offline or missing key
-    let fallbackReply = `I am Nexus AI Assistant. Here is guidance regarding your query "${message}":\n\n`;
-    const lower = message.toLowerCase();
+    // Intelligent Dynamic Fallback AI Bot when offline or missing key
+    const studentName = context?.studentName || "Amna Ahmed";
+    const cgpa = context?.cgpa || "3.42";
+    const targetGpa = context?.targetGpa || "3.60";
+    const exams = Array.isArray(context?.upcomingExams) && context.upcomingExams.length > 0
+      ? context.upcomingExams.map((e: any, idx: number) => `  ${idx + 1}. **${e.title}** on ${e.date || "May 12"}`).join("\n")
+      : "  1. **Final Capstone Presentation** - May 12 @ 09:00 AM (L-302 Auditorium)\n  2. **OS Architecture Final** - May 15 @ 02:00 PM (Virtual Hall B)\n  3. **Data Ethics Colloquium** - May 18 @ 11:30 AM (Room 405)";
 
-    if (lower.includes("cgpa") || lower.includes("gpa") || lower.includes("calculate") || lower.includes("target")) {
-      fallbackReply += `• **Current Status**: Your current CGPA is 3.42.\n• **Target Goal**: To raise your CGPA to 3.60 with 18 credit hours this semester, you need a semester target GPA of **3.88**.\n• **Tip**: Prioritize high-weight subjects like CS-402 (40%) and AI-305 (40%).`;
+    const lower = message.toLowerCase();
+    let reply = "";
+
+    if (lower.includes("exam") || lower.includes("date") || lower.includes("schedule") || lower.includes("test")) {
+      reply = `Hello **${studentName}**, here are your scheduled upcoming exam dates:\n\n${exams}\n\nPlease bring your Student ID card to the exam hall.`;
+    } else if (lower.includes("cgpa") || lower.includes("gpa") || lower.includes("calculate") || lower.includes("target")) {
+      reply = `**Academic Performance Analysis for ${studentName}**:\n• **Current CGPA**: ${cgpa}\n• **Target CGPA**: ${targetGpa}\n• **Required Semester GPA**: You need a semester average of **3.88** across 18 credits to reach your target.\n• **Focus Recommendation**: Prioritize high-weight courses like CS-402 (Advanced Algorithms) and AI-305.`;
     } else if (lower.includes("retake") || lower.includes("register") || lower.includes("appeal")) {
-      fallbackReply += `• **Retake Policy**: You can register for a retake for courses graded below B. For Discrete Mathematics II (MA-410, C+), registration is open until May 20th.\n• **Next Step**: Click the **Register for Retake** button in the top action bar to submit your appeal.`;
-    } else if (lower.includes("exam") || lower.includes("date") || lower.includes("schedule")) {
-      fallbackReply += `• **Upcoming Exams**:\n  1. Final Capstone Presentation - May 12 @ 09:00 AM (L-302 Auditorium)\n  2. OS Architecture Final - May 15 @ 02:00 PM (Virtual Hall B)\n  3. Data Ethics Colloquium - May 18 @ 11:30 AM (Room 405)`;
+      reply = `**Course Retake Policy**:\n• Courses with grades below B (3.0) can be repeated.\n• Retake registration for Discrete Mathematics II (MA-410) is open until **May 20th**.\n• Apply directly from the Student Portal dashboard.`;
     } else if (lower.includes("scholarship") || lower.includes("fee") || lower.includes("waiver")) {
-      fallbackReply += `• **Merit Scholarship**: Maintaining a CGPA above 3.50 qualifies you for a 25% merit-based tuition waiver.\n• **Fee Status**: Spring 2024 tuition fees are fully settled.`;
+      reply = `**Merit Scholarship Status for ${studentName}**:\n• Maintaining a **3.50+ CGPA** unlocks a 25% tuition fee waiver.\n• Your current CGPA is **${cgpa}**. Reaching your target of **${targetGpa}** will qualify you!`;
     } else {
-      fallbackReply += `I can help you analyze your GPA trajectory, review exam schedules, check scholarship criteria, or organize your course timetable. Feel free to ask about any specific course or result!`;
+      reply = `Hello **${studentName}**! I am your Nexus AI Academic Assistant. How can I assist you with your studies, exam dates, CGPA target calculations, or course schedules today?`;
     }
 
-    return res.json({ reply: fallbackReply });
+    return res.json({ reply });
 
   } catch (err) {
     console.error("Support bot server error:", err);

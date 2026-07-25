@@ -18,9 +18,9 @@ import {
 
 export const initialStudent: StudentProfile = {
   user_id: 'default_student_001',
-  name: 'Hassan Raza',
+  name: 'Amna Ahmed',
   studentId: 'UG-2024-8842',
-  email: 'hassan.raza@nexus.edu',
+  email: 'amna.ahmed@nexus.edu',
   program: 'Undergraduate (BS Computer Science)',
   department: 'Computer Science',
   degree: 'BS Computer Science',
@@ -152,7 +152,7 @@ export const initialCourses: Course[] = [
     creditHours: 4,
     department: 'Computer Science',
     semester: 'Semester 4',
-    instructor: 'Dr. Sarah Jenkins',
+    instructor: 'Dr. Huzaifa',
     enrolledCount: 38,
     scheduleTime: 'Mon/Wed 09:00 AM',
     roomNumber: 'Lab 3'
@@ -282,7 +282,7 @@ export const initialTimetable: TimetableEntry[] = [
     time: '09:00 AM - 10:30 AM',
     room: 'Lab 3',
     roomNumber: 'Lab 3',
-    instructor: 'Dr. Sarah Jenkins'
+    instructor: 'Dr. Huzaifa'
   },
   {
     user_id: 'default_student_001',
@@ -330,7 +330,7 @@ export const initialTimetable: TimetableEntry[] = [
     time: '02:00 PM - 04:00 PM',
     room: 'Lab 3',
     roomNumber: 'Lab 3',
-    instructor: 'Dr. Sarah Jenkins'
+    instructor: 'Dr. Huzaifa'
   },
   {
     user_id: 'default_student_001',
@@ -439,9 +439,9 @@ export const initialSubmissions: AssignmentSubmission[] = [
     id: 'sub-1',
     assignmentId: 'asg-1',
     studentId: 'UG-2024-8842',
-    studentName: 'Hassan Raza',
+    studentName: 'Amna Ahmed',
     submittedAt: '2026-05-08 14:30',
-    fileName: 'Hassan_Raza_Algorithms_Asg1.pdf',
+    fileName: 'Amna_Ahmed_Algorithms_Asg1.pdf',
     fileUrl: '#',
     status: 'Graded',
     score: 95,
@@ -470,7 +470,7 @@ export const initialStudyNotes: StudyNote[] = [
     uploadedAt: '2026-04-18',
     fileSize: '4.2 MB',
     fileUrl: '#',
-    uploadedBy: 'Dr. Sarah Jenkins'
+    uploadedBy: 'Dr. Huzaifa'
   },
   {
     id: 'note-2',
@@ -509,7 +509,7 @@ export const initialAnnouncements: Announcement[] = [
     message: 'Due to upcoming Hackathon events, the deadline for DP & Graph Optimizations has been moved to May 10th.',
     targetClass: 'CS-402',
     createdAt: '2026-04-26 11:15',
-    author: 'Dr. Sarah Jenkins'
+    author: 'Dr. Huzaifa'
   },
   {
     id: 'ann-3',
@@ -564,7 +564,7 @@ export const initialActivityLogs: ActivityLog[] = [
   {
     id: 'log-1',
     timestamp: '2026-04-28 10:45 AM',
-    user: 'Dr. Sarah Jenkins',
+    user: 'Dr. Huzaifa',
     action: 'Attendance Updated',
     ipAddress: '192.168.1.104'
   },
@@ -578,7 +578,7 @@ export const initialActivityLogs: ActivityLog[] = [
   {
     id: 'log-3',
     timestamp: '2026-04-27 04:30 PM',
-    user: 'Hassan Raza',
+    user: 'Amna Ahmed',
     action: 'Assignment Submitted',
     ipAddress: '192.168.1.210'
   },
@@ -594,7 +594,7 @@ export const initialActivityLogs: ActivityLog[] = [
 export const initialTeacherAttendance: TeacherAttendance[] = [
   {
     id: 'ta-1',
-    teacherName: 'Dr. Sarah Jenkins',
+    teacherName: 'Dr. Huzaifa',
     date: '2026-04-28',
     status: 'Present',
     punchIn: '08:45 AM',

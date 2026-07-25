@@ -34,7 +34,7 @@ export function NotesUpload({ courses, notes, onAddNote }: NotesUploadProps) {
       await onAddNote({
         title,
         courseCode,
-        uploadedBy: 'Dr. Sarah Jenkins',
+        uploadedBy: 'Dr. Huzaifa',
         uploadedAt: 'Oct 24, 2026',
         fileSize: fileSize || '2.5 MB',
         fileUrl: fileUrl || '#',

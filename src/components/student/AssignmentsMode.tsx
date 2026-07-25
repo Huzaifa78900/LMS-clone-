@@ -188,7 +188,7 @@ export function AssignmentsMode({ assignments, submissions, onSubmitAssignment }
                   type="text"
                   value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
-                  placeholder="e.g. Ali_Ahmed_Algorithm_Doc.pdf"
+                  placeholder="e.g. Amna_Ahmed_Algorithm_Doc.pdf"
                   required
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />

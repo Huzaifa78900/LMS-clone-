@@ -106,8 +106,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
   const [currentUser, setCurrentUser] = useState<AppUser>({
     uid: 'demo_user_001',
-    email: 'hassan.raza@nexus.edu',
-    displayName: 'Hassan Raza',
+    email: 'amna.ahmed@nexus.edu',
+    displayName: 'Amna',
     role: 'student'
   });
   const [currentView, setCurrentView] = useState<ViewMode>('dashboard');

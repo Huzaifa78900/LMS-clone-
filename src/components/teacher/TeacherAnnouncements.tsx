@@ -27,7 +27,7 @@ export function TeacherAnnouncements({
       await onAddAnnouncement({
         title,
         message,
-        author: 'Dr. Sarah Jenkins',
+        author: 'Dr. Huzaifa',
         targetClass,
         createdAt: 'Oct 24, 2026'
       });

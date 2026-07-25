@@ -17,7 +17,7 @@ export function CourseManagement({ courses, teachers, onAddCourse }: CourseManag
   const [title, setTitle] = useState('');
   const [creditHours, setCreditHours] = useState(3);
   const [department, setDepartment] = useState('Computer Science');
-  const [instructor, setInstructor] = useState(teachers[0]?.name || 'Dr. Sarah Jenkins');
+  const [instructor, setInstructor] = useState(teachers[0]?.name || 'Dr. Huzaifa');
   const [saving, setSaving] = useState(false);
 
   const filteredCourses = courses.filter(
