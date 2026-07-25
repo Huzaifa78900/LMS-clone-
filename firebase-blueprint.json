@@ -1,0 +1,94 @@
+{
+  "entities": {
+    "students": {
+      "title": "Students",
+      "description": "Student profile data",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "Owner Auth UID" },
+        "name": { "type": "string", "description": "Student Full Name" },
+        "studentId": { "type": "string", "description": "Student ID Code" },
+        "email": { "type": "string", "description": "Student Email" },
+        "program": { "type": "string", "description": "Academic Degree Program" },
+        "cgpa": { "type": "number", "description": "Current Cumulative GPA" },
+        "expectedCredits": { "type": "number", "description": "Expected Credits for semester" },
+        "targetGpa": { "type": "number", "description": "Desired Target GPA" },
+        "avatarUrl": { "type": "string", "description": "Avatar Image URL" }
+      },
+      "required": ["user_id", "name"]
+    },
+    "academic_records": {
+      "title": "Academic Records",
+      "description": "Subject grades and marks per semester",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "Owner Auth UID" },
+        "semester": { "type": "string", "description": "Semester identifier (e.g. Semester 4 (Current))" },
+        "code": { "type": "string", "description": "Subject Code" },
+        "title": { "type": "string", "description": "Course Title" },
+        "weight": { "type": "number", "description": "Evaluation Weight %" },
+        "marks": { "type": "number", "description": "Marks out of 100" },
+        "grade": { "type": "string", "description": "Letter Grade (A+, A, B+, etc.)" },
+        "credits": { "type": "number", "description": "Credit hours" }
+      },
+      "required": ["user_id", "code", "title", "marks"]
+    },
+    "upcoming_exams": {
+      "title": "Upcoming Exams",
+      "description": "Examination schedule for student",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "Owner Auth UID" },
+        "title": { "type": "string", "description": "Exam Title" },
+        "date": { "type": "string", "description": "Exam Date string" },
+        "month": { "type": "string", "description": "Month abbreviation (e.g., MAY)" },
+        "dayNumber": { "type": "number", "description": "Day of month (e.g., 12)" },
+        "location": { "type": "string", "description": "Exam Location/Room" },
+        "time": { "type": "string", "description": "Exam Time" }
+      },
+      "required": ["user_id", "title", "date"]
+    },
+    "timetable": {
+      "title": "Timetable Entries",
+      "description": "Weekly class schedules",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "Owner Auth UID" },
+        "day": { "type": "string", "description": "Day of week" },
+        "code": { "type": "string", "description": "Course code" },
+        "title": { "type": "string", "description": "Course title" },
+        "time": { "type": "string", "description": "Class timing" },
+        "room": { "type": "string", "description": "Classroom or lab" },
+        "instructor": { "type": "string", "description": "Professor name" }
+      },
+      "required": ["user_id", "day", "code"]
+    },
+    "attendance_records": {
+      "title": "Attendance Records",
+      "description": "Course attendance metrics",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "Owner Auth UID" },
+        "code": { "type": "string", "description": "Course code" },
+        "title": { "type": "string", "description": "Course title" },
+        "totalClasses": { "type": "number", "description": "Total held classes" },
+        "attendedClasses": { "type": "number", "description": "Attended classes count" }
+      },
+      "required": ["user_id", "code", "totalClasses", "attendedClasses"]
+    },
+    "fee_statements": {
+      "title": "Fee Statements",
+      "description": "Financial tuition fee status",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "Owner Auth UID" },
+        "term": { "type": "string", "description": "Academic term" },
+        "amount": { "type": "number", "description": "Fee amount" },
+        "dueDate": { "type": "string", "description": "Due Date" },
+        "status": { "type": "string", "description": "Paid | Pending | Overdue" },
+        "invoiceRef": { "type": "string", "description": "Invoice number" }
+      },
+      "required": ["user_id", "term", "amount", "status"]
+    }
+  }
+}

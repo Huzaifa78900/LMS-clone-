@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    match /users/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /students/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /teachers/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /courses/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /academic_records/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /upcoming_exams/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /timetable/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /attendance_records/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /fee_statements/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /assignments/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /submissions/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /notes/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /announcements/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /calendar_events/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /activity_logs/{docId} {
+      allow read, write: if isSignedIn();
+    }
+    match /teacher_attendance/{docId} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}
+

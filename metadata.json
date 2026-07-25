@@ -1,0 +1,6 @@
+{
+  "name": "Academic Nexus",
+  "description": "Comprehensive University Learning Management System (LMS) featuring Student, Teacher, and Admin Portals, Firebase backend, role-based authentication, and AI Support Assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
